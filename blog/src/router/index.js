@@ -1,15 +1,28 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HelloWorld from '@/components/HelloWorld'
 
-Vue.use(Router);
+import HomePage from '../pages/HomePage'
+import DetailPage from '../pages/DetailPage'
+import PostBlogPage from '../pages/PostBlogPage'
+
+Vue.use(Router)
 
 export default new Router({
   routes: [
     {
       path: '/',
-      name: 'HelloWorld',
-      component: HelloWorld
+      name: 'HomePage',
+      component: HomePage
+    },
+    {
+      path: '/detail',
+      name: 'DetailPage',
+      component: DetailPage
+    },
+    {
+      path: '/post',
+      name: 'PostBlogPage',
+      component: PostBlogPage
     }
   ]
 })
