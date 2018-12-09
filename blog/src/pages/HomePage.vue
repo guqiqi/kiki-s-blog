@@ -45,7 +45,6 @@
     data () {
       return {
         show: true,
-        msg: 'Welcome to Your Vue.js App',
         movieList: [
           {
             name: 'The Shawshank Redemption',

@@ -5,9 +5,17 @@ import App from './App'
 import router from './router'
 import iView from 'iview'
 import 'iview/dist/styles/iview.css'
+import mavonEditor from 'mavon-editor'
+// markdown-it对象：md.s_markdown, md => mavonEditor实例
+//                 or
+//                 mavonEditor.markdownIt
+import 'mavon-editor/dist/css/index.css'
+
 
 Vue.config.productionTip = false
 Vue.use(iView)
+// use
+Vue.use(mavonEditor)
 
 /* eslint-disable no-new */
 new Vue({

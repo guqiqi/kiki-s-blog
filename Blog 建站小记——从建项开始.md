@@ -33,4 +33,31 @@
 
 5. 搭建相应的界面（页面的组织放在page文件夹下，通用组件放在component文件夹下）
 
+6. 引入markdown编辑器
+
+   `npm install mavon-editor --save`
+
+   在`main.js`中添加下列语句
+
+   ```js
+   import mavonEditor from 'mavon-editor'
+   import 'mavon-editor/dist/css/index.css'
+   
+   Vue.use(mavonEditor)
+   ```
+
+7. 引入markdown解析器，将markdown语句解析成html语句，最终还是在markdown编辑器上面展示
+
+   `npm install showdown`
+
+   在需要的地方添加下列语句
+
+   ```js
+   import showdown from 'showdown'
+   let converter = new showdown.Converter()
+   let html = converter.makeHtml(text)
+   ```
+
+8. 
+
 
