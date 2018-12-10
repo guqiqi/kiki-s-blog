@@ -112,8 +112,9 @@
     },
     methods: {
       postDetail: (key) => {
-        alert('hello')
+        // alert('hello')
         router.push('/detail')
+        // router.push('/detail')
       },
       getHeight(){
         console.log(document.body.clientHeight)

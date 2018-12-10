@@ -1,7 +1,35 @@
 <template>
   <div>
-    请编辑您的博客
-    <mavon-editor :ishljs="true" v-model="value" :defaultOpen="defaultData"
+    <Row class="row">
+      <i-col span="5">
+        <img v-bind:style="{marginTop:mobile?1+'em':0}" width="90%" src="../../static/image/idea.png"/>
+      </i-col>
+      <i-col span="19">
+        <div v-show="!mobile" style="text-align: left; font-size: 2.5em; font-weight: bolder; margin-top: .5em">
+          record your idea
+        </div>
+        <div style="margin-top: 2%">
+          <Row>
+            <i-col span="7">
+              <div class="subTitle">标题</div>
+            </i-col>
+            <i-col span="17">
+              <Input class="subTitleInput" v-model="title" placeholder="请输入标题..." size="large"/>
+            </i-col>
+          </Row>
+          <Row style="margin-bottom: .5em">
+            <i-col span="7">
+              <div class="subTitle">简介</div>
+            </i-col>
+            <i-col span="17">
+              <Input class="subTitleInput" v-model="abstract" type="textarea" :autosize="{minRows: 4,maxRows: 4}"
+                     placeholder="请输入简介（不得超过50词）" maxLength="50" size="large"/>
+            </i-col>
+          </Row>
+        </div>
+      </i-col>
+    </Row>
+    <mavon-editor :ishljs="true" v-model="content" :defaultOpen="defaultData"
                   @save="save"
                   :toolbars="{
                     bold: true, // 粗体
@@ -38,30 +66,79 @@
                     subfield: true, // 单双栏模式
                     preview: true, // 预览
                   }"
-                  style="width: 90%; margin-left: 5%; height: 600px"/>
+                  class="row" v-bind:style="{height: md_height+'em'}" style="margin-bottom: 1em"/>
+
+    <Row class="row" style="margin-bottom: 2em">
+      <i-col span="12">
+        <Button style="margin-right: 2.5%; width: 97.5%" to="/" type="error" long @click="back">返回</Button>
+      </i-col>
+      <i-col span="12">
+        <Button style="margin-left: 2.5%; width: 97.5%" type="success" long @click="submit">提交</Button>
+      </i-col>
+    </Row>
   </div>
 </template>
 
 <script>
   import global from '../../static/Global'
+  import ICol from "iview/src/components/grid/col"
+
   export default {
-    components:{
+    components: {
+      ICol,
       global
     },
     data() {
       return {
-        value: '',
-        defaultData: 'edit'
+        title: '',
+        abstract: '',
+        content: '',
+        defaultData: 'edit',
+        // 适配
+        mobile: false,
+        md_height: 35,
       }
     },
-    methods:{
-      save: (value)=>{
-        console.log(value)
+    methods: {
+      save: function () {
+        console.log(this.value)
+      },
+      back: () => {
+        alert('hello')
+      },
+      submit: function () {
+        console.log(this.title)
+        console.log(this.abstract)
+        console.log(this.content)
       }
+    },
+    mounted() {
+      this.mobile = global.screenWidth <= 1000
+      if(global.screenWidth == 768 && global.screenHeight == 1024)
+        this.md_height = 48
+      if(global.screenWidth == 375 && global.screenHeight == 812)
+        this.md_height = 38
+      if(global.screenWidth == 1024 && global.screenHeight == 1366)
+        this.md_height = 65
     }
   }
 </script>
 
 <style scoped>
+  .row {
+    margin-left: 5%;
+    width: 90%;
+  }
 
+  .subTitle {
+    font-size: 2em;
+    font-weight: bold;
+    text-align: left;
+  }
+
+  .subTitleInput {
+    margin-top: .1em;
+    font-weight: bold;
+    width: 100%;
+  }
 </style>
