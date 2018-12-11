@@ -58,6 +58,6 @@
    let html = converter.makeHtml(text)
    ```
 
-8. 
+8. 使用v-bind绑定变量，实现响应式布局
 
-
+9. 

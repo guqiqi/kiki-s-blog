@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Row class="row">
+    <Row class="row" style="margin-top: 40px">
       <i-col span="5">
         <img v-bind:style="{marginTop:mobile?1+'em':0}" width="90%" src="../../static/image/idea.png"/>
       </i-col>
@@ -76,17 +76,20 @@
         <Button style="margin-left: 2.5%; width: 97.5%" type="success" long @click="submit">提交</Button>
       </i-col>
     </Row>
+    <Navigation/>
   </div>
 </template>
 
 <script>
   import global from '../../static/Global'
   import ICol from "iview/src/components/grid/col"
+  import Navigation from '../components/Navigation'
 
   export default {
     components: {
       ICol,
-      global
+      global,
+      Navigation
     },
     data() {
       return {
@@ -114,11 +117,11 @@
     },
     mounted() {
       this.mobile = global.screenWidth <= 1000
-      if(global.screenWidth == 768 && global.screenHeight == 1024)
+      if (global.screenWidth === 768 && global.screenHeight === 1024)
         this.md_height = 48
-      if(global.screenWidth == 375 && global.screenHeight == 812)
+      if (global.screenWidth === 375 && global.screenHeight === 812)
         this.md_height = 38
-      if(global.screenWidth == 1024 && global.screenHeight == 1366)
+      if (global.screenWidth === 1024 && global.screenHeight === 1366)
         this.md_height = 65
     }
   }

@@ -8,29 +8,30 @@
     </div>
     <Card v-for="item in randomMovieList" style="width:80%; margin-left: 10%; margin-bottom: 10px; height: 200px">
       <Row>
-        <i-col :xs="0" :sm="0" :md="4" :lg="4">
-          <img height="100%" width="100%" v-bind:src="item.imgUrl">
-        </i-col>
-        <i-col :xs="24" :sm="24" :md="20" :lg="20">
-          <div style="font-size: x-large; font-weight: bold; text-align: left; margin-left: 20px; height: 40px"
-               @click="postDetail(item.key)">
-            {{ item.name }}
-          </div>
-          <div style="text-align: left; margin-left: 20px; height: 105px">
-            {{ item.name }}
-          </div>
-          <Row style="text-align: left; margin-left: 20px; height: 80%">
-            <i-col :xs="18" :sm="21" :md="22" style="margin-top: 3px; font-weight: bold">
-              2018年4月10日
-            </i-col>
-            <i-col :xs="6" :sm="3" :md="2">
-              <Icon size="30" type="ios-eye-outline" style="margin-top: -3px"/>
-              20
-            </i-col>
-          </Row>
-        </i-col>
+        <!--<i-col :xs="0" :sm="0" :md="4" :lg="4">-->
+        <!--<img height="100%" width="100%" v-bind:src="item.imgUrl">-->
+        <!--</i-col>-->
+        <!--<i-col :xs="24" :sm="24" :md="20" :lg="20">-->
+        <div style="font-size: x-large; font-weight: bold; text-align: left; margin-left: 20px; height: 40px"
+             @click="postDetail(item.key)">
+          {{ item.name }}
+        </div>
+        <div style="text-align: left; margin-left: 20px; height: 105px">
+          {{ item.name }}
+        </div>
+        <Row style="text-align: left; margin-left: 20px; height: 80%">
+          <i-col :xs="18" :sm="21" :md="22" style="margin-top: 3px; font-weight: bold">
+            2018年4月10日
+          </i-col>
+          <i-col :xs="6" :sm="3" :md="2">
+            <Icon size="30" type="ios-eye-outline" style="margin-top: -3px"/>
+            20
+          </i-col>
+        </Row>
+        <!--</i-col>-->
       </Row>
     </Card>
+    <Navigation/>
   </div>
 </template>
 
@@ -38,11 +39,15 @@
   import global from '../../static/Global'
   import ICol from 'iview/src/components/grid/col'
   import router from '../router'
+  import Navigation from '../components/Navigation'
 
   export default {
-    components: {ICol},
+    components: {
+      Navigation,
+      ICol
+    },
     name: 'HomePage',
-    data () {
+    data() {
       return {
         show: true,
         movieList: [
@@ -116,12 +121,8 @@
         router.push('/detail')
         // router.push('/detail')
       },
-      getHeight(){
-        console.log(document.body.clientHeight)
-        return document.body.clientHeight
-      },
-      changeLimit () {
-        function getArrayItems (arr, num) {
+      changeLimit() {
+        function getArrayItems(arr, num) {
           const temp_array = []
           for (let index in arr) {
             temp_array.push(arr[index])
@@ -142,11 +143,11 @@
         this.randomMovieList = getArrayItems(this.movieList, 5)
       }
     },
-    mounted () {
+    mounted() {
       this.changeLimit()
       let w = global.screenWidth
-      if(w < 800){
-        this.show = false;
+      if (w < 800) {
+        this.show = false
       }
     }
   }
