@@ -1,11 +1,11 @@
 package kiki.blog.backend.controller;
 
 import kiki.blog.backend.entity.Blog;
+import kiki.blog.backend.requestBody.BlogPost;
 import kiki.blog.backend.service.BlogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -15,11 +15,26 @@ public class BlogController {
     @Autowired
     private BlogService blogService;
 
-    @RequestMapping("getAllBlog")
+    @RequestMapping(value="getAllBlog", method = RequestMethod.GET)
     @ResponseBody
-    private List<Blog> getAllUser() {
-        List<Blog> blogs = blogService.getAllBlog();
+    public List<Blog> getAllBlog() {
+        List<Blog> blogList = blogService.getAllBlog();
+        return blogList;
+    }
 
-        return blogs;
+    @RequestMapping(value= "postBlog", method = RequestMethod.POST)
+    @ResponseBody
+    public void addBlog(@RequestBody BlogPost blogPost)  {
+        String title = blogPost.getTitle();
+        String summary = blogPost.getSummary();
+        String content = blogPost.getContent();
+
+        blogService.saveBlog(title, summary, content);
+    }
+
+    @RequestMapping(value= "getBlog", method = RequestMethod.GET)
+    @ResponseBody
+    public Blog getBlogById(@RequestParam int id)  {
+        return blogService.getBlogById(id);
     }
 }

@@ -1,6 +1,8 @@
 package kiki.blog.backend.entity;
 
 import javax.persistence.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @Entity //加入这个注解，Demo就会进行持久化了
 @Table(name="blog")
@@ -20,6 +22,21 @@ public class Blog {
     private String date;
     @Column(name="reader")
     private int reader;
+
+    public Blog() {
+    }
+
+    public Blog(String title, String summary, String content) {
+        Date now = new Date( );
+        SimpleDateFormat ft = new SimpleDateFormat ("yyyy.MM.dd HH:mm:ss");
+
+        this.title = title;
+        this.summary = summary;
+        this.content = content;
+        this.date = ft.format(now);
+        this.reader = 0;
+        this.writer = "kiki";
+    }
 
     public int getId() {
         return id;

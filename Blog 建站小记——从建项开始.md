@@ -62,6 +62,53 @@
 
 9. 自己搭建组件（navigation），以供其他使用
 
+10. 创建http请求通用类
+
+   ```javascript
+   export default {
+     baseUrl: 'http://localhost:8081',
+     query
+   }
+   
+   /**
+    *
+    * @param {*} params
+    * @param {*} resolve
+    * @param {*} reject
+    * @param {*} root
+    * @param method
+    */
+   async function query(params, resolve, reject, root, method) {
+     try {
+       let url = this.baseUrl + root
+       let request = {}
+       let headers = new Headers()
+       headers.append("Content-Type", "application/json")
+       request.headers = headers
+       request.method = method
+   
+       if (method !== METHOD.GET) request.body = JSON.stringify(params)
+       else {
+         if (params !== {}) {
+           url = url + '?'
+           for (let key in params) {
+             url = url + key + '=' + params[key] + '&'
+           }
+           url = url.substring(0, url.length - 1)
+         }
+       }
+       let res = await fetch(url, request)
+       let result = await res.text()
+   
+       resolve(res.status, result)
+     } catch (e) {
+       reject(e)
+     }
+   }
+   ```
+
+11. 还有iview的对话！
+
 
 
 ## 后端
@@ -273,3 +320,42 @@
 
 9. 启动后端即可
 
+## 坑
+
+1. 前后端交互的时候注意post请求使用json来进行数据传输，这时候在前端发请求的时候要把json对象转换成String
+
+2. hibernate有很多注解
+   1. entity需要对应表的注解`@Table @Cloumn`
+   2. update操作要有`@Modifying @Transactional`注解
+
+3. 比较常见的是跨域请求，需要写一份配置文件，简单粗暴的直接允许所有跨域请求了
+
+   ```java
+   import org.springframework.context.annotation.Bean;
+   import org.springframework.context.annotation.Configuration;
+   import org.springframework.web.cors.CorsConfiguration;
+   import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+   import org.springframework.web.filter.CorsFilter;
+   
+   @Configuration
+   public class CorsConfig {
+       private CorsConfiguration buildConfig() {
+           CorsConfiguration corsConfiguration = new CorsConfiguration();
+           corsConfiguration.addAllowedOrigin("*"); // 1允许任何域名使用
+           corsConfiguration.addAllowedHeader("*"); // 2允许任何头
+           corsConfiguration.addAllowedMethod("*"); // 3允许任何方法（post、get等）
+           return corsConfiguration;
+       }
+   
+       @Bean
+       public CorsFilter corsFilter() {
+           UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+           source.registerCorsConfiguration("/**", buildConfig()); // 4
+           return new CorsFilter(source);
+       }
+   }
+   ```
+
+4. iView的对话框弹出效果至今还不知道该怎么做，自动实例化有点坑
+
+5. 还有markdown编辑时需要上传图片

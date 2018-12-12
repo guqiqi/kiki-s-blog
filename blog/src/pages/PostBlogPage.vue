@@ -76,6 +76,7 @@
         <Button style="margin-left: 2.5%; width: 97.5%" type="success" long @click="submit">提交</Button>
       </i-col>
     </Row>
+    <Modal></Modal>
     <Navigation/>
   </div>
 </template>
@@ -84,6 +85,8 @@
   import global from '../../static/Global'
   import ICol from "iview/src/components/grid/col"
   import Navigation from '../components/Navigation'
+  import router from '../router'
+  import blogApi from '../methods/blogApi'
 
   export default {
     components: {
@@ -107,15 +110,35 @@
         console.log(this.value)
       },
       back: () => {
-        alert('hello')
+        router.push('/')
+        // this.$Modal.confirm({
+        //   title: '确认退出',
+        //   content: '您所编辑的内容尚未保存，请问确认退出吗？',
+        //   okText: '确认',
+        //   cancelText: '取消',
+        //   onOk: () => {
+        //     router.push('/')
+        //   },
+        // });
       },
       submit: function () {
-        console.log(this.title)
-        console.log(this.abstract)
-        console.log(this.content)
+        blogApi.postBlog(this.title,this.abstract,this.content, this.success, this.fail)
+      },
+      success: function (status, text) {
+        console.log(status)
+        if (status === 200) {
+          alert('保存成功')
+          router.push('/')
+        }
+        else
+          alert('保存成功')
+      },
+      fail: function (error) {
+        alert(error)
       }
     },
     mounted() {
+      // 适配问题
       this.mobile = global.screenWidth <= 1000
       if (global.screenWidth === 768 && global.screenHeight === 1024)
         this.md_height = 48

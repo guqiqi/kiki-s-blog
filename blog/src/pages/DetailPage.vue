@@ -5,7 +5,7 @@
         <div style="margin-top: 2%">
           <div class="subTitle">{{this.title}}</div>
           <Row style="margin-bottom: 2%">
-            <div style="font-size: 1.2em; font-weight: bold; text-align:left; margin-top: .5em">{{this.abstract}}
+            <div style="font-size: 1.2em; font-weight: bold; text-align:left; margin-top: .5em">{{this.summary}}
             </div>
           </Row>
           <Row style="margin-top: 2em; margin-bottom: 2em">
@@ -36,17 +36,18 @@
   import global from '../../static/Global'
   import ICol from "iview/src/components/grid/col"
   import Navigation from '../components/Navigation'
+  import blogApi from '../methods/blogApi'
 
   export default {
     components: {ICol, Navigation},
     data() {
       return {
         //content的值是经过markdown解析后的文本，可使用`@change="changeData"`在控制台打印显示
-        title: 'Blog 建站小记——从建项开始',
-        abstract: '建立自己博客的过程记录',
-        name: 'kiki',
-        reader: 20,
-        date: '2018.12.10 19:23',
+        title: '',
+        summary: '',
+        name: '',
+        reader: 0,
+        date: '',
         content: ``,
         defaultData: "preview",
 
@@ -55,18 +56,29 @@
         avatar: 2
       }
     },
-    methods: {},
+    methods: {
+      success: function (status, text) {
+        if (status === 200) {
+          let blog = JSON.parse(text)
+
+          let converter = new showdown.Converter()
+          let html = converter.makeHtml(blog.content)
+          this.content = html
+          this.title = blog.title
+          this.summary = blog.summary
+          this.name = blog.writer
+          this.reader = blog.reader
+          this.date = blog.date
+        }
+        else
+          alert('联网失败')
+      },
+      fail: function (error) {
+        alert(error)
+      }
+    },
     mounted() {
-      let converter = new showdown.Converter()
-      let html = converter.makeHtml(`# Blog 建站小记——从建项开始
-
-## 前端
-
-1. 使用终端进入项目文件夹中所在文件夹 \`vue init webpack project-name\`
-
-   注意：会有一系列选项需要填写，可以一路\`enter\`，也可以有选择的输入一些内容进行初始化，比如项目名字，是否建立单元测试等
-`)
-      this.content = html
+      blogApi.getBlogById(this.$route.query.blogId, this.success, this.fail)
 
       // 适配问题
       this.offset = global.screenWidth > 700 ? 0 : 1
@@ -79,7 +91,7 @@
   .row {
     margin-left: 5%;
     width: 90%;
-    margin-top: 20px
+    margin-top: 40px
   }
 
   .subTitle {
