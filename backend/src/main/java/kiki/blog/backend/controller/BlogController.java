@@ -18,8 +18,19 @@ public class BlogController {
     @RequestMapping(value="getAllBlog", method = RequestMethod.GET)
     @ResponseBody
     public List<Blog> getAllBlog() {
-        List<Blog> blogList = blogService.getAllBlog();
-        return blogList;
+        return blogService.getAllBlog();
+    }
+
+    @RequestMapping(value="getBlogByYear", method = RequestMethod.GET)
+    @ResponseBody
+    public List<Blog> getBlogByYear(@RequestParam String year) {
+        return blogService.getBlogByYear(year);
+    }
+
+    @RequestMapping(value="getBlogByTag", method = RequestMethod.GET)
+    @ResponseBody
+    public List<Blog> getBlogByTag(@RequestParam String tag) {
+        return blogService.getBlogByTag(tag);
     }
 
     @RequestMapping(value= "postBlog", method = RequestMethod.POST)
@@ -28,8 +39,9 @@ public class BlogController {
         String title = blogPost.getTitle();
         String summary = blogPost.getSummary();
         String content = blogPost.getContent();
+        String[] tags = blogPost.getTags();
 
-        blogService.saveBlog(title, summary, content);
+        blogService.saveBlog(title, summary, content, tags);
     }
 
     @RequestMapping(value= "getBlog", method = RequestMethod.GET)

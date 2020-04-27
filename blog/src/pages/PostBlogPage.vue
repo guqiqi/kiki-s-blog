@@ -26,6 +26,16 @@
                      placeholder="请输入简介（不得超过50词）" maxLength="50" size="large"/>
             </i-col>
           </Row>
+          <Row>
+            <i-col span="7">
+              <div class="subTitle">标题</div>
+            </i-col>
+            <i-col span="17" style="text-align: left">
+              <Tag v-for="item in tags" :key="item" :name="item" closable @on-close="handleRemove">{{ item }}</Tag>
+              <Input style="margin-top: .1em; font-weight: bold; width: 100px;" v-model="tagText"/>
+              <Button icon="ios-add" type="dashed" @click="handleAdd">添加标签</Button>
+            </i-col>
+          </Row>
         </div>
       </i-col>
     </Row>
@@ -99,6 +109,8 @@
         title: '',
         abstract: '',
         content: '',
+        tags: [],
+        tagText: '',
         defaultData: 'edit',
         // 适配
         mobile: false,
@@ -106,6 +118,14 @@
       }
     },
     methods: {
+      handleAdd () {
+        this.tags.push(this.tagText);
+        this.tagText = "";
+      },
+      handleRemove (event, name) {
+        const index = this.tags.indexOf(name);
+        this.tags.splice(index, 1);
+      },
       save: function () {
         console.log(this.value)
       },
@@ -122,7 +142,7 @@
         // });
       },
       submit: function () {
-        blogApi.postBlog(this.title,this.abstract,this.content, this.success, this.fail)
+        blogApi.postBlog(this.title,this.abstract,this.content, this.tags, this.success, this.fail)
       },
       success: function (status, text) {
         console.log(status)

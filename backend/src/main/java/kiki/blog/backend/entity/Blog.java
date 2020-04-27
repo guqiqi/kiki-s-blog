@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-@Entity //加入这个注解，Demo就会进行持久化了
+@Entity //加入这个注解就会进行持久化了
 @Table(name="blog")
 public class Blog {
     @Id
@@ -22,12 +22,16 @@ public class Blog {
     private String date;
     @Column(name="reader")
     private int reader;
+    @Column(name = "tagids")
+    private String tagIds;
+    @Column(name = "tagnames")
+    private String tagNames;
 
     public Blog() {
     }
 
-    public Blog(String title, String summary, String content) {
-        Date now = new Date( );
+    public Blog(String title, String summary, String content, String tagIds, String tagNames) {
+        Date now = new Date();
         SimpleDateFormat ft = new SimpleDateFormat ("yyyy.MM.dd HH:mm:ss");
 
         this.title = title;
@@ -36,6 +40,9 @@ public class Blog {
         this.date = ft.format(now);
         this.reader = 0;
         this.writer = "kiki";
+
+        this.tagIds = tagIds;
+        this.tagNames = tagNames;
     }
 
     public int getId() {
@@ -92,5 +99,13 @@ public class Blog {
 
     public void setReader(int reader) {
         this.reader = reader;
+    }
+
+    public String getTagIds() {
+        return tagIds;
+    }
+
+    public String getTagNames() {
+        return tagNames;
     }
 }

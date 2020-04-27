@@ -23,6 +23,9 @@ public interface BlogRepository extends JpaRepository<Blog,Long> {
     @Query("select b from Blog b where b.id=:id")
     Blog getBlog(int id);
 
+    @Query(value="select * from Blog b where b.date regexp :year", nativeQuery = true)
+    List<Blog> getBlogByYear(String year);
+
     @Modifying
     @Transactional
     @Query("update Blog b set b.reader = :reader where b.id=:id")

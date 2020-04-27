@@ -4,11 +4,13 @@ public class BlogPost {
     private String title;
     private String summary;
     private String content;
+    private String[] tags;
 
-    public BlogPost(String title, String summary, String content) {
+    public BlogPost(String title, String summary, String content, String[] tags) {
         this.title = title;
         this.summary = summary;
         this.content = content;
+        this.tags = tags;
     }
 
     public String getTitle() {
@@ -23,4 +25,7 @@ public class BlogPost {
         return content;
     }
 
+    public String[] getTags() {
+        return tags;
+    }
 }
